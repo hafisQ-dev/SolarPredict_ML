@@ -1,118 +1,98 @@
-\#  SolarPredict-ML: 24-Hour Solar Power Forecasting
+# ☀️ Solar Energy Prediction using Forecasting Dataset
 
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge&logo=python&logoColor=white)
 
+> **Short Description:** A machine learning forecasting project that predicts solar power generation (`Power_Generation_kW`) based on 1-year weather dynamics (irradiance, cloudiness, temperatures) and time-series feature engineering to optimize energy efficiency and grid operation.
 
-Welcome to \*\*SolarPredict-ML\*\*! This project uses Artificial Intelligence (Machine Learning) to predict how much electricity a solar power plant will generate 24 hours in advance based on weather forecasts.
+---
 
+## 1. Introduction
 
+* **Definition:** This study leverages 1-year hourly meteorological parameters—including ambient temperature, solar irradiance, module temperature, and lagged generation metrics—to build accurate prediction models for solar panel output.
 
-Whether you are an energy engineer, a data scientist, or just someone curious about renewable energy, this project demonstrates how AI can help balance the green energy grid.
+---
 
+## 2. Overview
 
+* **What is the Problem?**
+  Unpredictable renewable energy output challenges grid stability and operational planning. Predicting solar power generation in advance allows energy providers to optimize consumption efficiency, prepare backup resources, and maximize profit margins. Additionally, identifying the most efficient ML algorithm for this specific data structure is a core goal.
 
-\---
+* **How to Solve It?**
+  Using the `scikit-learn` framework, multiple regression algorithms (**Linear Regression**, **Polynomial Regression**, and **Random Forest Regressor**) were implemented. Their performances were benchmarked against test data to select the optimal model.
 
+* **Why Choose This Method?**
+  Strategic energy forecasting requires scalable and accessible machine learning pipelines. By employing robust standard libraries, this project delivers a clear, reproducible benchmark for real-world solar energy management.
 
+---
 
-\##  The Big Picture (How it Works)
+## 3. System Architecture & Key Features
 
+### 3.1 System Architecture
 
+<div align="center">
+  <img width="750" alt="system_arch_p7" src="https://github.com/user-attachments/assets/3110a74c-5c00-4288-921f-ac2e869668ce" />
+</div>
 
-Solar panels are amazing, but they have a problem: \*\*they depend on the weather\*\*. If a cloud blocks the sun, power generation drops instantly. Electric grids cannot handle sudden drops without planning.
+### 3.2 Key Features
 
+* **Raw Data & Preprocessing:** 1-year dataset containing 8,760 entries (`Ambient_Temp`, `Irradiance_W_m2`, `Module_Temp`, `Power_Generation_kW`).
+* **Feature Engineering:**
+  * **Cyclical Time Encoding:** `Hour_Sin` and `Hour_Cos` transformations for 24-hour daily cycles.
+  * **Autoregressive Feature:** `Power_Lag_1h` (1-hour delayed power generation values) to capture time-series autocorrelation.
+* **Model Training:** Comparative evaluation across linear and ensemble models.
 
+---
 
-This AI model solves this problem by acting like a smart weather-analyst engineer. It looks at three main things:
+## 4. Results & Performance Metrics
 
-1\. \*\*Solar Irradiance (W/m^2):\*\* The "fuel" of the panel. More sun = more power.
+### 4.1 Terminal Output
 
-2\. \*\*Ambient Temperature (°C):\*\* The enemy of efficiency. Did you know solar panels lose efficiency when they get too hot (above 25°C)? Our AI learns this penalty automatically!
+<div align="center">
+  <img width="700" alt="Terminal Execution Results" src="https://github.com/user-attachments/assets/11ce4e87-f199-4324-85ec-1df0cb1c0c5c" />
+</div>
 
-3\. \*\*Time of Day:\*\* Knowing that the sun peaks at noon and sets at night.
+<br>
 
+### 4.2 Benchmark Table
 
+| Model Algorithm | MAE (kW) | RMSE (kW) | R² Score | Performance Verdict |
+| :--- | :---: | :---: | :---: | :--- |
+| **Linear Regression** | 1.33 kW | 1.87 kW | 0.9978 | Baseline performance |
+| **Polynomial Regression** | **0.82 kW** | **1.41 kW** | **0.9988** | **Best Performing Model** |
+| **Random Forest Regressor** | 0.88 kW | 1.56 kW | 0.9985 | Strong ensemble baseline |
 
-\---
+> **Key Takeaway:** Incorporating the 1-hour lag feature (`Power_Lag_1h`) significantly boosted overall accuracy ($R^2 > 0.99$). Polynomial Regression achieved the lowest error metrics (MAE: 0.82 kW), proving to be the most optimal model for capturing the subtle non-linear thermodynamics of the panels.
 
+---
 
+## 5. Artifacts & Outputs
 
-\##  Project Pipeline \& Architecture
+The execution pipeline automatically generates and stores evaluation visuals:
 
+* `correlation_matrix.png`: Exploratory data analysis showing feature correlations.
+* `forecast_comparison.png`: Time-series overlay plot comparing real vs. predicted power outputs across all models.
 
+---
 
-The project is divided into 5 simple stages, moving from raw data to a live app:
+## 6. Getting Started
 
+### 6.1 Prerequisites
+* Python 3.8+
+* `pip` package manager
 
-
-```text
-
-\\\[ Raw Weather Data ] ➡️ \\\[ Data Cleaning \\\& EDA ] ➡️ \\\[ Feature Engineering (Sin/Cos Time) ]
-
-\&#x20;                                                                  ⬇️
-
-\\\[ Live Interactive Web App ] ⬅️ \\\[ Deployment ] ⬅️ \\\[ Model Training (Random Forest) ]
-
-
-
-```
-
-
-
-\### 1. Exploratory Data Analysis (EDA)
-
-
-
-We analyze how features correlate with each other. As expected, solar irradiance has a near-perfect positive relationship with energy output, while temperature introduces complex curves.
-
-
-
-\### 2. Feature Engineering
-
-
-
-Computers don't naturally understand that 23:00 (11 PM) and 00:00 (Midnight) are right next to each other. We use mathematical \*\*Sin/Cos transformations\*\* to turn the clock into a circle, helping the AI understand the cyclical nature of a 24-hour day.
-
-
-
-\### 3. Model Comparison
-
-
-
-We trained three different algorithms and compared their scores:
-
-
-
-\* \*\*Linear Regression:\*\* Thinks everything is a straight line. (Okay, but struggles with nights and extreme heat).
-
-\* \*\*Polynomial Regression:\*\* Understands curves. (Better).
-
-\* \*\*Random Forest Regressor:\*\* The champion! It creates thousands of mini "decision trees" (rules) to perfectly map clouds, heat drops, and time gaps.
-
-
-
-
-
-\---
-
-
-
-
-
-\###  Install Dependencies
-
-
-
-Install all required libraries with a single command:
-
-
+### 6.2 Installation & Execution
 
 ```bash
+# Clone the repository
+git clone [https://github.com/your-username/solar-energy-prediction.git](https://github.com/your-username/solar-energy-prediction.git)
+cd solar-energy-prediction
 
-pip install -r requirements.txt
+# Install dependencies
+pip install pandas numpy scikit-learn matplotlib seaborn
 
-
-
-```
-
-
-
+# Run the main pipeline
+python3 main.py
