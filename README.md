@@ -88,7 +88,7 @@ The execution pipeline automatically generates and stores evaluation visuals:
 
 ```bash
 # Clone the repository
-git clone [https://github.com/your-username/solar-energy-prediction.git](https://github.com/your-username/solar-energy-prediction.git)
+git clone https://github.com/hafisQ-dev/solar-energy-prediction.git
 cd solar-energy-prediction
 
 # Install dependencies
